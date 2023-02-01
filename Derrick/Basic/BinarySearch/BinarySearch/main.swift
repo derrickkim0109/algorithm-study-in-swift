@@ -34,5 +34,52 @@ func binarySearch(_ array: [Int], _ num: Int) -> Int? {
     return nil
 }
 
-print(binarySearch(sampleArray, 13)!) // Result : 12
-print(binarySearch(sampleArray, 16)) // Result : Nil
+func binarySearchPractice(_ array: [Int], requiredNumber: Int) -> Int {
+    var low = 0
+    var high = array.count - 1
+
+    while low <= high {
+        var mid = (low + high) / 2
+        let guessValue = array[mid]
+
+        if guessValue == requiredNumber {
+            while mid > 0 && array[mid - 1] == guessValue {
+                mid -= 1
+            }
+
+            return array.count - mid
+        } else if guessValue > requiredNumber {
+            high = mid - 1
+        } else {
+            low = mid + 1
+        }
+    }
+
+    return array.count - low
+}
+
+func binarySearchRecursive(_ arr: [Int], _ target: Int, _ low: Int, _ high: Int) -> Int {
+    if (low > high) {
+        return -1
+    }
+
+    let mid = (low + high) / 2;
+    if (arr[mid] == target) {
+        return mid
+    }
+    else if (arr[mid] > target) {
+        return binarySearchRecursive(arr, target, low, mid-1)
+    }
+    else {
+        return binarySearchRecursive(arr, target, mid+1, high)
+    }
+}
+
+//print(binarySearch(sampleArray, 13)!) // Result : 12
+//print(binarySearch(sampleArray, 16)) // Result : Nil
+//
+//print(binarySearchRecursive(sampleArray, 13, 0, sampleArray.count - 1)) // Result : 12
+//print(binarySearchRecursive(sampleArray, 16, 0, sampleArray.count - 1)) // Result : -1
+
+print(binarySearchPractice(sampleArray, requiredNumber: 13)) // Result : 3 13이랑 같거나 큰 수
+//print(binarySearchPractice(sampleArray, requiredNumber: 16)) // Result : 0 16이랑 같거나 큰 수
